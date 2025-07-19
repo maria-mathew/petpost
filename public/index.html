@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PetPost</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #4a90e2;
+      margin-bottom: 20px;
+    }
+    form {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(74,144,226,0.2);
+      margin-bottom: 30px;
+    }
+    form input[type="text"],
+    form input[type="file"] {
+      display: block;
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    form input[type="text"]:focus,
+    form input[type="file"]:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+    form button {
+      background-color: #4a90e2;
+      color: white;
+      font-weight: 600;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    form button:hover {
+      background-color: #357ABD;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin-bottom: 30px;
+    }
+    #pet-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    #pet-list > div {
+      background: white;
+      border-radius: 8px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    #pet-list > div:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+    #pet-list h3 {
+      margin: 10px 0 8px;
+      color: #333;
+    }
+    #pet-list p {
+      margin: 6px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    #pet-list img {
+      margin-top: 10px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Adoptable Pets</h1>
+  <form action="/add-pet" method="post" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="text" name="age" placeholder="Age" required />
+    <input type="text" name="breed" placeholder="Breed" required />
+    <input type="file" name="photo" accept="image/*" required />
+    <button type="submit">Add Pet</button>
+  </form>
+  <hr />
+  <div id="pet-list"></div>
+
+  <script>
+    fetch('/pets')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('pet-list');
+        data.forEach(pet => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <h3>${pet.name}</h3>
+            <p><strong>Age:</strong> ${pet.age}</p>
+            <p><strong>Breed:</strong> ${pet.breed}</p>
+            <img src="${pet.imageUrl}" alt="Photo of ${pet.name}" />
+          `;
+          container.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
