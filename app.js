@@ -52,5 +52,5 @@ app.post("/add-pet", upload.single("photo"), (req, res) => {
 });
 
 app.listen(3000, '0.0.0.0', () => {
-  console.log("PetPost running on port 80");
+  console.log("PetPost running on port 3000");
 });
