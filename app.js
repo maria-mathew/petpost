@@ -51,6 +51,6 @@ app.post("/add-pet", upload.single("photo"), (req, res) => {
   });
 });
 
-app.listen(80, '0.0.0.0', () => {
+app.listen(3000, '0.0.0.0', () => {
   console.log("PetPost running on port 80");
 });
